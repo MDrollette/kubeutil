@@ -1,0 +1,11 @@
+#!/bin/bash
+
+set -o monitor
+
+RESOURCE=`kubectl get po -l app=elastichq -o name | head -n1`
+POD=${RESOURCE:4}
+
+kubectl port-forward $POD 8080:80 &
+sleep 3
+open http://localhost:8080/?url=http://localhost:8080/api
+fg
